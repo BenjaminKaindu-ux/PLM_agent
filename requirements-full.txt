@@ -1,0 +1,27 @@
+# Full PLM Factory stack (local development; requirements.txt is what's actually deployed
+# to the Space — smaller now since embeddings/LLM calls go through the HF Inference API
+# instead of a locally-loaded model). This file adds ingestion-only and not-yet-wired deps:
+# datasets/pypdf/langchain-text-splitters (one-time PDF/WikiArt ingestion scripts, not
+# imported at Space runtime), rank_bm25/langchain-community (planned BM25+RRF fallback,
+# ARCHITECTURE.md — add only after observing real retrieval misses), arize-phoenix stack
+# (observability, planned but not wired yet).
+smolagents[toolkit]
+datasets
+numpy
+matplotlib
+pillow
+sympy
+rdkit
+chromadb
+huggingface_hub>=1.15.0
+ddgs
+requests
+rank_bm25
+langchain-text-splitters
+langchain-community
+markdownify
+gradio
+arize-phoenix
+arize-phoenix-otel
+openinference-instrumentation-smolagents
+pypdf

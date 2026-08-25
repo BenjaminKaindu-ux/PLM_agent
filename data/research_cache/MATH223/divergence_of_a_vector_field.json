@@ -1,0 +1,26 @@
+{
+  "course": "MATH223",
+  "topic": "divergence of a vector field",
+  "key_facts": [
+    "Divergence measures how the vector field behaves towards or away from a point.",
+    "It quantifies the 'outflowing-neness' of a vector field in R2 or R3.",
+    "Fields with zero divergence do not have net flow in or out, representing source-free fields.",
+    "A vector field with positive divergence indicates flow away from a point.",
+    "The divergence of a vector field F = \u27e8P, Q, R\u27e9 in R^3 is div F = Px + Qy + Rz."
+  ],
+  "misconceptions": [
+    "Some students confuse divergence with curl, thinking both measure the same aspect of vector fields.",
+    "A misconception among students is that a non-zero divergence implies the vector field has no practical applications."
+  ],
+  "canonical_examples": [
+    "Vector field F(x,y) = \u27e8x^2 y, y - xy^2\u27e9 has a divergence of 1, indicating it is not source-free.",
+    "Vector field F(x,y) = \u27e8-y, x\u27e9 has a divergence of 0, indicating it is source-free.",
+    "Vector field F(x,y) = \u27e8-y, x\u27e9 has a divergence of 0 everywhere, representing no net flow.",
+    "Vector field F(x,y) = \u27e8-yx, x^2\u27e9 has a divergence of -y, indicating it concentrates towards the positive y-axis and disperses from the negative y-axis."
+  ],
+  "disagreements": [],
+  "sources": [
+    "https://math.libretexts.org/Courses/SUNY_Geneseo/Math_223_Calculus_3/05%3A_Vector_Calculus/5.05%3A_Divergence_and_Curl",
+    "https://tildesites.geneseo.edu/~baldwin/math223/fall2022/12-slash-02-divergence.php"
+  ]
+}

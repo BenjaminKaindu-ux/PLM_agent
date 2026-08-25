@@ -1,0 +1,12 @@
+gradio
+sympy
+numpy
+matplotlib
+pillow
+rdkit
+smolagents
+chromadb
+huggingface_hub>=1.15.0
+ddgs
+markdownify
+requests
