@@ -29,6 +29,19 @@ from src.plm_core.plm_agent import build_plm_agent
 MAX_CHOICES = 5  # widest choice set across courses (CHEM241A functional groups, ARH styles)
 
 # Shared by both the student drill and the agent debug tab below.
+# ARH categories are re-derived once at import time, not per-access, since
+# active_categories() reads manifest.json on every call — cache the result.
+_ACTIVE_ARH_CATEGORIES = None
+
+
+def _get_active_arh_categories():
+    global _ACTIVE_ARH_CATEGORIES
+    if _ACTIVE_ARH_CATEGORIES is None:
+        from src.generators import arh as arh_gen
+        _ACTIVE_ARH_CATEGORIES = arh_gen.active_categories()
+    return _ACTIVE_ARH_CATEGORIES
+
+
 COURSES = {
     "MATH223": {
         "make_item": math223.make_item,
@@ -49,15 +62,13 @@ COURSES = {
     },
     "ARH": {
         "make_item": arh.make_item,
-        # Re-derived each session (not module-level): auto-expands if more WikiArt
-        # styles get cached later (currently 3/5 — Pop_Art/Ukiyo_e pending).
-        "categories": lambda: {c: {"rt_threshold_s": 10.0} for c in arh.active_categories()},
+        "categories": _get_active_arh_categories,
         "blurb": (
             "**StyleSense** — classify the art style/period from a cropped detail. Answer "
             "keys are WikiArt's own curated style labels."
         ),
     },
-}
+},
 
 
 def new_session(course: str) -> ArtsTracker:

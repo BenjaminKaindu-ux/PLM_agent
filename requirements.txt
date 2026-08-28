@@ -1,12 +1,14 @@
-gradio
-sympy
-numpy
-matplotlib
-pillow
-rdkit
-smolagents
-chromadb
+# Core deps for the Gradio Space (what's actually installed there).
+# Pinned to known-good versions (verified 2026-08) to prevent breakages.
+gradio==6.20.0
+sympy>=1.12
+numpy>=1.24
+matplotlib>=3.7
+pillow>=9.0
+rdkit>=2026.3.4
+smolagents>=1.25.0
+chromadb>=1.5.9
 huggingface_hub>=1.15.0
-ddgs
-markdownify
-requests
+duckduckgo-search>=4.0  # replaces deprecated ddgs
+markdownify>=0.8
+requests>=2.28
