@@ -34,11 +34,13 @@ MAX_CHOICES = 5  # widest choice set across courses (CHEM241A functional groups,
 _ACTIVE_ARH_CATEGORIES = None
 
 
-def _get_active_arh_categories():
+def _get_active_arh_categories() -> dict:
+    """Return ARH categories as a dict (same shape as MATH223/CHEM241A), cached."""
     global _ACTIVE_ARH_CATEGORIES
     if _ACTIVE_ARH_CATEGORIES is None:
         from src.generators import arh as arh_gen
-        _ACTIVE_ARH_CATEGORIES = arh_gen.active_categories()
+        cats = arh_gen.active_categories()
+        _ACTIVE_ARH_CATEGORIES = {c: {"rt_threshold_s": 10.0} for c in cats}
     return _ACTIVE_ARH_CATEGORIES
 
 
@@ -73,7 +75,15 @@ COURSES = {
 
 def new_session(course: str) -> ArtsTracker:
     categories = COURSES[course]["categories"]()
-    return ArtsTracker([CategoryState(name=n, rt_threshold_s=s["rt_threshold_s"]) for n, s in categories.items()])
+    if isinstance(categories, dict):
+        # MATH223 and CHEM241A: categories is already a dict {name: spec}.
+        return ArtsTracker(
+            [CategoryState(name=n, rt_threshold_s=s["rt_threshold_s"]) for n, s in categories.items()]
+        )
+    # ARH: categories is a list of strings (from active_categories()).
+    return ArtsTracker(
+        [CategoryState(name=n, rt_threshold_s=10.0) for n in categories]
+    )
 
 
 def next_trial(course: str, tracker: ArtsTracker | None):
