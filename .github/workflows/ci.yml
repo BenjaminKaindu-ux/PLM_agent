@@ -1,0 +1,57 @@
+name: Python CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+      - name: Lint with ruff
+        run: ruff check src/ app.py --output-format=github
+
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install mypy
+      - name: Type check
+        run: mypy src/ app.py --ignore-missing-imports --no-error-summary
+
+  generate-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Smoke-test MATH223 generator
+        run: |
+          python -c "from src.generators import math223; item = math223.make_item('divergence_sign'); assert item['correct'] is not None; print('OK:', item['id'])"
+      - name: Smoke-test CHEM241A generator
+        run: |
+          python -c "from src.generators import chem241a; item = chem241a.make_item('functional_group_id'); assert item['correct'] is not None; print('OK:', item['id'])"
+      - name: Smoke-test ARTS tracker
+        run: |
+          python -c "from src.plm_core.arts import ArtsTracker, CategoryState; t = ArtsTracker([CategoryState('test')]); t.record('test', True, 1.0); print('ARTS OK')"
